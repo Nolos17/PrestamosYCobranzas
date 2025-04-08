@@ -303,8 +303,8 @@ class CuotaController extends Controller
         ]);
 
         // Separar los IDs compuestos y los montos
-        $pagosSeleccionados = explode(',', $request->pagos_seleccionados); // ["prestamo_1", "ahorro_1"]
-        $montosPagos = explode(',', $request->montos_pagos); // ["237.67", "100"]
+        $pagosSeleccionados = explode(',', $request->pagos_seleccionados); // ["cuota-modificado-12", "ahorro-15"]
+        $montosPagos = explode(',', $request->montos_pagos); // ["90", "100"]
 
         // Validar que la cantidad de pagos y montos coincida
         if (count($pagosSeleccionados) !== count($montosPagos)) {
@@ -320,8 +320,7 @@ class CuotaController extends Controller
         $ultimaTransaccion = Transaccione::latest('id')->first();
         $saldoAnterior = $ultimaTransaccion ? $ultimaTransaccion->saldo : 0;
 
-        // Obtener el último saldo pendiente de la ultima cuota pagada
-
+        // Crear el registro de pago
         $pago = new Pago();
         $pago->cliente_id = $cliente->id;
         $pago->total_pago = $request->total_monto;
@@ -330,25 +329,47 @@ class CuotaController extends Controller
         $pago->detalle_pago = $request->detalle_pago;
         $pago->save();
 
-
         // Procesar cada pago seleccionado
         foreach ($pagosSeleccionados as $index => $pagoId) {
-
             $monto = (float) $montosPagos[$index];
-            [$tipo, $id] = explode('-', $pagoId); // Separar "prestamo_1" en ["prestamo", "1"]
             $multas = array_map('floatval', explode(',', $request->input('multas_pagos')));
+
+            // Separar el id_compuesto: "cuota-modificado-12" -> ["cuota", "modificado", "12"]
+            $partes = explode('-', $pagoId);
+            $tipo = $partes[0]; // "cuota", "ahorro" o "precancelacion"
+            $esModificado = in_array('modificado', $partes); // Verificar si está modificado
+            $id = end($partes); // El último elemento es el ID (por ejemplo, "12")
+
             if ($tipo === 'cuota') {
                 // Actualizar la cuota de préstamo
                 $cuota = Cuota::findOrFail($id);
-                $cuota->estado = 'Pagado';
                 $cuota->metodo_pago = $request->metodo_pago;
                 $cuota->fecha_pago = $request->fecha_pago;
                 $cuota->detalle_pago = $request->detalle_pago;
                 $cuota->pago_id = $pago->id;
-                $cuota->multa = $multas[$index]; // Corrección aquí
+                $cuota->multa = $multas[$index];
+
+                // Determinar si el pago cubre el monto total de la cuota
+                $montoOriginal = $cuota->monto_cuota;
+                $esPagoParcial = $esModificado && $monto < $montoOriginal;
+
+                if ($esPagoParcial) {
+                    // Pago parcial: no cambiar el estado a "Pagado"
+                    $cuota->saldo_pendiente -= $monto;
+                    if ($cuota->saldo_pendiente < 0) {
+                        $cuota->saldo_pendiente = 0;
+                    }
+                    $cuota->monto_cuota -= $monto; // Actualizar el monto_cuota al saldo pendiente
+                    $cuota->detalle_pago .= ' (Pago parcial)';
+                } else {
+                    // Pago completo: cambiar estado a "Pagado"
+                    $cuota->estado = 'Pagado';
+                    $cuota->detalle_pago .= ' (Pago completo)';
+                }
+
                 $cuota->save();
 
-                // Actualizar el préstamo (restar el monto al monto_total)
+                // Actualizar el préstamo (restar el monto pagado al monto_total)
                 $prestamo = Prestamo::findOrFail($cuota->prestamo_id);
                 $prestamo->monto_total -= $monto;
                 if ($prestamo->monto_total <= 0) {
@@ -357,13 +378,14 @@ class CuotaController extends Controller
                 }
                 $prestamo->save();
 
-
                 // Registrar la transacción (ingreso por pago de préstamo)
                 $saldoAnterior += $monto; // Ingreso, suma al saldo
                 $transaccion = new Transaccione();
                 $transaccion->tipo_transaccion = 'ingreso';
-                $transaccion->tipo_transaccion1 = 'pago prestamo';
-                $transaccion->detalle = 'pago prestamo cliente: ' . $cliente->nro_documento . ' - ' . $cliente->apellidos . ' ' . $cliente->nombres;
+                $transaccion->tipo_transaccion1 = $esPagoParcial ? 'pago prestamo' : 'pago prestamo';
+                $transaccion->detalle = $esPagoParcial
+                    ? 'Pago parcial prestamo cliente: ' . $cliente->nro_documento . ' - ' . $cliente->apellidos . ' ' . $cliente->nombres
+                    : 'Pago prestamo cliente: ' . $cliente->nro_documento . ' - ' . $cliente->apellidos . ' ' . $cliente->nombres;
                 $transaccion->pago_id = $pago->id;
                 $transaccion->monto = $monto;
                 $transaccion->saldo = $saldoAnterior;
@@ -372,15 +394,31 @@ class CuotaController extends Controller
             } elseif ($tipo === 'ahorro') {
                 // Actualizar la cuota de ahorro
                 $ahorro = Ahorro::findOrFail($id);
-                $ahorro->estado = 'Pagado';
                 $ahorro->metodo_pago = $request->metodo_pago;
                 $ahorro->fecha_pago = $request->fecha_pago;
                 $ahorro->detalle_pago = $request->detalle_pago;
                 $ahorro->pago_id = $pago->id;
                 $ahorro->multa = $multas[$index];
+
+                // Determinar si el pago cubre el monto total del ahorro
+                $montoOriginal = $ahorro->monto_ahorro;
+                $esPagoParcial = $esModificado && $monto < $montoOriginal;
+
+                if ($esPagoParcial) {
+                    // Pago parcial: no cambiar el estado a "Pagado"
+                    $ahorro->monto_ahorro -= $monto;
+                    if ($ahorro->monto_ahorro < 0) {
+                        $ahorro->monto_ahorro = 0;
+                    }
+                    $ahorro->detalle_pago .= ' (Pago parcial)';
+                } else {
+                    // Pago completo: cambiar estado a "Pagado"
+                    $ahorro->estado = 'Pagado';
+                }
+
                 $ahorro->save();
 
-                // Sumar el monto al saldo_ahorro del cliente
+                // Sumar el monto pagado al saldo_ahorro del cliente
                 $cliente->saldo_ahorro += $monto;
                 $cliente->save();
 
@@ -388,16 +426,16 @@ class CuotaController extends Controller
                 $saldoAnterior += $monto; // Ingreso, suma al saldo
                 $transaccion = new Transaccione();
                 $transaccion->tipo_transaccion = 'ingreso';
-                $transaccion->tipo_transaccion1 = 'pago ahorro';
-                $transaccion->detalle = 'pago ahorro cliente: ' . $cliente->nro_documento . ' - ' . $cliente->apellidos . ' ' . $cliente->nombres;
+                $transaccion->tipo_transaccion1 = $esPagoParcial ? 'pago ahorro' : 'pago ahorro';
+                $transaccion->detalle = $esPagoParcial
+                    ? 'Pago parcial ahorro cliente: ' . $cliente->nro_documento . ' - ' . $cliente->apellidos . ' ' . $cliente->nombres
+                    : 'Pago ahorro cliente: ' . $cliente->nro_documento . ' - ' . $cliente->apellidos . ' ' . $cliente->nombres;
                 $transaccion->pago_id = $pago->id;
                 $transaccion->monto = $monto;
                 $transaccion->saldo = $saldoAnterior;
                 $transaccion->fecha = Carbon::parse($request->fecha_pago);
                 $transaccion->save();
             } elseif ($tipo === 'precancelacion') {
-
-
                 // Actualizar la cuota de préstamo
                 $cuota = Cuota::findOrFail($id);
                 $cuota->estado = 'Pagado';
@@ -423,8 +461,6 @@ class CuotaController extends Controller
                 $prestamo->estado = 'Cancelado';
                 $prestamo->save();
 
-
-
                 // Registrar la transacción (ingreso por pago de préstamo)
                 $saldoAnterior += $monto; // Ingreso, suma al saldo
                 $transaccion = new Transaccione();
@@ -438,6 +474,7 @@ class CuotaController extends Controller
                 $transaccion->save();
             }
         }
+
         // Buscar el préstamo
         $prestamoPagado = Prestamo::where('cliente_id', $request->cliente_id)
             ->where('estado', 'Cancelado')
@@ -505,18 +542,19 @@ class CuotaController extends Controller
      */
     public function recibos($id)
     {
-        $pago = Pago::find($id);
-        if (!$pago) {
+        $pagos = Pago::find($id);
+        if (!$pagos) {
             return redirect()->route('admin.cuotas.index')
                 ->with('mensaje', 'Pago no encontrado')
                 ->with('icono', 'error');
         }
         $configuracion = Configuracion::latest()->first();
-        $cliente = Cliente::find($pago->cliente_id);
+        $clientes = Cliente::find($pagos->cliente_id);
         $cuotas = Cuota::where('pago_id', $id)->get();
-        $ahorro = Ahorro::where('pago_id', $id)->get();
+        $ahorros = Ahorro::where('pago_id', $id)->get();
+        $transacciones = Transaccione::where('pago_id', $id)->get();
 
-        $pdf = PDF::loadView('admin.cuotas.recibos', compact('pago', 'cliente', 'cuotas', 'configuracion', 'ahorro'));
+        $pdf = PDF::loadView('admin.cuotas.recibos', compact('pagos', 'clientes', 'cuotas', 'configuracion', 'ahorros', 'transacciones'));
         $pdf->setPaper('A4', 'portrait');
         // Generar el PDF
         $pdf->render(); // Esto es necesario para obtener la cantidad total de páginas

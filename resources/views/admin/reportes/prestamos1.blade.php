@@ -38,7 +38,7 @@
             left: 50%;
             width: 60%;
             height: 60%;
-            background: url('{{ public_path('storage/' . $configuracion->logo) }}') no-repeat center;
+            background: url('{{ public_path(' storage/' . $configuracion->logo) }}') no-repeat center;
             background-size: contain;
             opacity: 0.1;
             transform: translate(-50%, -50%);
@@ -129,7 +129,7 @@
             <tr>
                 <td width="25%" style="text-align: center; font-size: 10pt;">
                     @if ($configuracion && $configuracion->logo)
-                        <img src="{{ public_path('storage/' . $configuracion->logo) }}" width="45px" alt="Logo">
+                    <img src="{{ public_path('storage/' . $configuracion->logo) }}" width="45px" alt="Logo">
                     @endif
                     <p class="company-name">{{ $configuracion->nombre ?? 'Nombre de la Empresa' }}</p>
                     {{ $configuracion->descripcion ?? '' }}<br>
@@ -152,52 +152,53 @@
     <div class="content">
         <h3>Resultados</h3>
         @if (empty($datosReporte))
-            <p class="no-data">No existen préstamos este mes.</p>
+        <p class="no-data">No existen préstamos este mes.</p>
         @else
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Nº</th>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Nº</th>
 
-                        <th>Nº Prestamo</th>
-                        <th>Cliente</th>
-                        <th>Tasa de Interés</th>
-                        <th>Modalidad</th>
-                        <th>Capital Recaudado</th>
-                        <th>Interés Recaudado</th>
-                        <th>Total Recaudado</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($datosReporte as $item)
-                        <tr>
-                            <td>{{ $loop->iteration }}</td>
-                            <td>{{ $item['prestamo']->id }}</td>
-                            <td>{{ $item['prestamo']->cliente ? $item['prestamo']->cliente->nombres . ' ' . $item['prestamo']->cliente->apellidos : 'N/A' }}
-                            </td>
-                            <td>{{ $item['prestamo']->tasa_interes_anual }}%</td>
-                            <td>{{ $item['prestamo']->modalidad }}</td>
-                            <td>{{ $item['cuotas_pagadas']->sum('capital') }}</td>
-                            <td>{{ $item['cuotas_pagadas']->sum('interes') }}</td>
-                            <td>{{ $item['cuotas_pagadas']->sum('monto_cuota') }}</td>
-
-
+                    <th>Nº Prestamo</th>
+                    <th>Cliente</th>
+                    <th>Tasa de Interés</th>
+                    <th>Modalidad</th>
+                    <th>Capital Recaudado</th>
+                    <th>Interés Recaudado</th>
+                    <th>Total Recaudado</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($datosReporte as $item)
+                <tr>
+                    <td>{{ $loop->iteration }}</td>
+                    <td>{{ $item['prestamo']->id }}</td>
+                    <td>{{ $item['prestamo']->cliente ? $item['prestamo']->cliente->nombres . ' ' . $item['prestamo']->cliente->apellidos : 'N/A' }}
+                    </td>
+                    <td>{{ $item['prestamo']->tasa_interes_anual }}%</td>
+                    <td>{{ $item['prestamo']->modalidad }}</td>
+                    <td>{{ $item['cuotas_pagadas']->sum('capital') }}</td>
+                    <td>{{ $item['cuotas_pagadas']->sum('interes') }}</td>
+                    <td>{{ $item['cuotas_pagadas']->sum('capital') + $item['cuotas_pagadas']->sum('interes') }}</td>
 
 
-                        </tr>
-                    @endforeach
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <td colspan="5" style="text-align: right;">Totales:</td>
-                        <td>{{ $todasCuotasPagadas->sum('capital') }}</td>
-                        <td>{{ $todasCuotasPagadas->sum('interes') }}</td>
-                        <td>{{ $todasCuotasPagadas->sum('monto_cuota') }}</td>
 
-                    </tr>
-                </tfoot>
 
-        @endif
+
+                </tr>
+                @endforeach
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="5" style="text-align: right;">Totales:</td>
+                    <td>{{ $todasCuotasPagadas->sum('capital') }}</td>
+                    <td>{{ $todasCuotasPagadas->sum('interes') }}</td>
+                    <td>{{ $todasCuotasPagadas->sum('capital')+$todasCuotasPagadas->sum('interes') }}</td>
+
+                </tr>
+            </tfoot>
+
+            @endif
     </div>
 </body>
 

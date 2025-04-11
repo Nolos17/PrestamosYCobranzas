@@ -38,7 +38,7 @@
             left: 50%;
             width: 60%;
             height: 60%;
-            background: url('{{ public_path('storage/' . $configuracion->logo) }}') no-repeat center;
+            background: url('{{ public_path(' storage/' . $configuracion->logo) }}') no-repeat center;
             background-size: contain;
             opacity: 0.1;
             transform: translate(-50%, -50%);
@@ -129,7 +129,7 @@
             <tr>
                 <td width="25%" style="text-align: center; font-size: 10pt;">
                     @if ($configuracion && $configuracion->logo)
-                        <img src="{{ public_path('storage/' . $configuracion->logo) }}" width="45px" alt="Logo">
+                    <img src="{{ public_path('storage/' . $configuracion->logo) }}" width="45px" alt="Logo">
                     @endif
                     <p class="company-name">{{ $configuracion->nombre ?? 'Nombre de la Empresa' }}</p>
                     {{ $configuracion->descripcion ?? '' }}<br>
@@ -152,57 +152,57 @@
     <div class="content">
         <h3>Resultados</h3>
         @if (empty($datosReporte) || ($tipoReporte === 'anual' && array_sum(array_column($datosReporte, 'total')) == 0))
-            <p class="no-data">No existen datos para este reporte.</p>
+        <p class="no-data">No existen datos para este reporte.</p>
         @else
-            <table class="table">
-                <thead>
-                    <tr>
-                        @if ($tipoReporte === 'global')
-                            <th>Año</th>
-                        @endif
-                        <th>Mes</th>
-                        <th>Capital Recaudado</th>
-                        <th>Interés Recaudado</th>
-                        <th>Total Recaudado</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @if ($tipoReporte === 'anual')
-                        @foreach (range(1, 12) as $mes)
-                            @php
-                                $mesStr = str_pad($mes, 2, '0', STR_PAD_LEFT);
-                                $datosMes = $datosReporte[$mesStr] ?? ['capital' => 0, 'interes' => 0, 'total' => 0];
-                            @endphp
-                            <tr>
-                                <td>{{ \Carbon\Carbon::create()->month($mes)->translatedFormat('F') }}</td>
-                                <td>{{ $datosMes['capital'] }}</td>
-                                <td>{{ $datosMes['interes'] }}</td>
-                                <td>{{ $datosMes['total'] }}</td>
-                            </tr>
-                        @endforeach
-                    @elseif ($tipoReporte === 'global')
-                        @foreach ($datosReporte as $anio => $meses)
-                            @foreach ($meses as $mes => $datos)
-                                <tr>
-                                    <td>{{ $anio }}</td>
-                                    <td>{{ \Carbon\Carbon::create()->month($mes)->translatedFormat('F') }}</td>
-                                    <td>{{ $datos['capital'] }}</td>
-                                    <td>{{ $datos['interes'] }}</td>
-                                    <td>{{ $datos['total'] }}</td>
-                                </tr>
-                            @endforeach
-                        @endforeach
+        <table class="table">
+            <thead>
+                <tr>
+                    @if ($tipoReporte === 'global')
+                    <th>Año</th>
                     @endif
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <td colspan="{{ $tipoReporte === 'global' ? 2 : 1 }}" style="text-align: right;">Totales:</td>
-                        <td>{{ $totales['capital'] }}</td>
-                        <td>{{ $totales['interes'] }}</td>
-                        <td>{{ $totales['total'] }}</td>
-                    </tr>
-                </tfoot>
-            </table>
+                    <th>Mes</th>
+                    <th>Capital Recaudado</th>
+                    <th>Interés Recaudado</th>
+                    <th>Total Recaudado</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if ($tipoReporte === 'anual')
+                @foreach (range(1, 12) as $mes)
+                @php
+                $mesStr = str_pad($mes, 2, '0', STR_PAD_LEFT);
+                $datosMes = $datosReporte[$mesStr] ?? ['capital' => 0, 'interes' => 0, 'total' => 0];
+                @endphp
+                <tr>
+                    <td>{{ \Carbon\Carbon::create()->month($mes)->translatedFormat('F') }}</td>
+                    <td>{{ $datosMes['capital'] }}</td>
+                    <td>{{ $datosMes['interes'] }}</td>
+                    <td>{{ $datosMes['capital']+ $datosMes['interes'] }}</td>
+                </tr>
+                @endforeach
+                @elseif ($tipoReporte === 'global')
+                @foreach ($datosReporte as $anio => $meses)
+                @foreach ($meses as $mes => $datos)
+                <tr>
+                    <td>{{ $anio }}</td>
+                    <td>{{ \Carbon\Carbon::create()->month($mes)->translatedFormat('F') }}</td>
+                    <td>{{ $datos['capital'] }}</td>
+                    <td>{{ $datos['interes'] }}</td>
+                    <td>{{ $datos['capital'] + $datos['interes'] }}</td>
+                </tr>
+                @endforeach
+                @endforeach
+                @endif
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="{{ $tipoReporte === 'global' ? 2 : 1 }}" style="text-align: right;">Totales:</td>
+                    <td>{{ $totales['capital'] }}</td>
+                    <td>{{ $totales['interes'] }}</td>
+                    <td>{{ $totales['capital']+$totales['interes'] }}</td>
+                </tr>
+            </tfoot>
+        </table>
         @endif
     </div>
 </body>

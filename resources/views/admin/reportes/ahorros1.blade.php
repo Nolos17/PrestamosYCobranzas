@@ -184,7 +184,7 @@
                                     <td>{{ $ahorro->id }}</td>
                                     <td>{{ $item['cliente']->nombres . ' ' . $item['cliente']->apellidos }}</td>
                                     <td>{{ $ahorro->referencia_pago ?? 'N/A' }}</td>
-                                    <td>{{ number_format($ahorro->monto_ahorro / ($configuracion->valor_accion ?? 1), 2) }}
+                                    <td>{{  $item['cliente']->acciones}}
                                     </td>
                                     <td>{{ number_format($ahorro->monto_ahorro, 2) }}</td>
                                 </tr>

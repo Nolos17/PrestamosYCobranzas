@@ -117,9 +117,6 @@ Route::delete('admin/retiros/{id}', [App\Http\Controllers\RetiroController::clas
 */
 
 Route::get('admin/reportes', [App\Http\Controllers\ReporteController::class, 'index'])->name('admin.reportes.index')->middleware(['auth']);
-Route::get('admin/reportes/prestamos1', [App\Http\Controllers\ReporteController::class, 'prestamos1'])->name('admin.reportes.prestamos1')->middleware(['auth']);
-Route::get('admin/reportes/prestamos2', [App\Http\Controllers\ReporteController::class, 'prestamos2'])->name('admin.reportes.prestamos2')->middleware(['auth']);
-Route::get('admin/reportes/ahorros1', [App\Http\Controllers\ReporteController::class, 'ahorros1'])->name('admin.reportes.ahorros1')->middleware(['auth']);
 Route::get('admin/reportes/transacciones', [App\Http\Controllers\ReporteController::class, 'transacciones'])->name('admin.reportes.transacciones')->middleware(['auth']);
 
 

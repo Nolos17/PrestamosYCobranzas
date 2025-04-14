@@ -14,6 +14,8 @@
 
         {{-- Custom left links --}}
         @yield('content_top_nav_left')
+        <h4><strong>Capital Disponible: </strong><span id="saldoDisponible">{{ $saldo }}</span></h4>
+
     </ul>
 
     {{-- Navbar right links --}}
@@ -23,19 +25,18 @@
 
         {{-- Configured right links --}}
         @each('adminlte::partials.navbar.menu-item', $adminlte->menu('navbar-right'), 'item')
-
         {{-- User menu link --}}
         @if(Auth::user())
-            @if(config('adminlte.usermenu_enabled'))
-                @include('adminlte::partials.navbar.menu-item-dropdown-user-menu')
-            @else
-                @include('adminlte::partials.navbar.menu-item-logout-link')
-            @endif
+        @if(config('adminlte.usermenu_enabled'))
+        @include('adminlte::partials.navbar.menu-item-dropdown-user-menu')
+        @else
+        @include('adminlte::partials.navbar.menu-item-logout-link')
+        @endif
         @endif
 
         {{-- Right sidebar toggler link --}}
         @if($layoutHelper->isRightSidebarEnabled())
-            @include('adminlte::partials.navbar.menu-item-right-sidebar-toggler')
+        @include('adminlte::partials.navbar.menu-item-right-sidebar-toggler')
         @endif
     </ul>
 

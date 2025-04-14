@@ -165,17 +165,17 @@
             </tbody>
             <tfoot>
                 <tr>
-                    <td colspan="3" style="text-align: right;">Total Ingresos:</td>
+                    <td colspan="4" style="text-align: right;">Total Ingresos:</td>
                     <td>{{ number_format($transacciones->where('tipo_transaccion', 'ingreso')->sum('monto'), 2) }}</td>
                     <td colspan="1"></td>
                 </tr>
                 <tr>
-                    <td colspan="3" style="text-align: right;">Total Egresos:</td>
+                    <td colspan="4" style="text-align: right;">Total Egresos:</td>
                     <td>{{ number_format($transacciones->where('tipo_transaccion', 'egreso')->sum('monto'), 2) }}</td>
                     <td colspan="1"></td>
                 </tr>
                 <tr>
-                    <td colspan="3" style="text-align: right;">Saldo (Ingresos - Egresos):</td>
+                    <td colspan="4" style="text-align: right;">Saldo (Ingresos - Egresos):</td>
                     <td>{{ number_format($transacciones->where('tipo_transaccion', 'ingreso')->sum('monto') - $transacciones->where('tipo_transaccion', 'egreso')->sum('monto'), 2) }}</td>
                     <td colspan="1"></td>
                 </tr>

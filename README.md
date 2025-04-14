@@ -119,7 +119,7 @@ Este sistema permite gestionar socios, préstamos, pagos, retiros, reportes y co
 -   Reportes
     ![Reportes](backup/docs/images/reporte_mensual_ahorros.png)
     ![Reportes](backup/docs/images/reporte_mensual_prestamos.png)
-    ![Reportes](backup/docs/images/reporte_mensual_transacciones_reporte_mensual.png)
+    ![Reportes](backup/docs/images/transacciones_reporte_mensual.png)
 
 -   Backups
     ![Reportes](backup/docs/images/backups.png)

@@ -112,7 +112,7 @@ Este sistema permite gestionar socios, préstamos, pagos, retiros, reportes y co
   <img src="backup/docs/images/inicio1.png" width="600"/>
 </p>
 
-### ⚙️ Configuración
+### ⚙️ Configuraciónes
 
 <p align="center">
   <img src="backup/docs/images/configuracion.png" width="600"/>

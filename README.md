@@ -100,15 +100,29 @@ Este sistema permite gestionar socios, préstamos, pagos, retiros, reportes y co
 
 ## 📸 Vista de Funcionalidades
 
+-   Login
+    ![Login](backup/docs/images/inicio.png)
 -   Interfaz inicial
-    ![Intefaz Inicial](backup/docs/images/inicio.png)
+    ![Intefaz Inicial](backup/docs/images/inicio1.png)
 -   Configuración
+    ![Configuración](backup/docs/images/configuracion.png)
 -   Registro y gestión de socios
+    ![Socio](backup/docs/images/socio.png)
+    ![Socio Registrar](backup/docs/images/socio_registrar.png)
 -   Préstamos
+    ![Préstamos](backup/docs/images/prestamos_ver.png)
+    ![Préstamos](backup/docs/images/prestamos_reporte.png)
 -   Pagos e intereses
--   Retiros
+    ![Intereses](backup/docs/images/listado_pagos.png)
+    ![Intereses](backup/docs/images/pago_interes.png)
+    ![Intereses](backup/docs/images/pago_reporte.png)
 -   Reportes
+    ![Reportes](backup/docs/images/reporte_mensual_ahorros.png)
+    ![Reportes](backup/docs/images/reporte_mensual_prestamos.png)
+    ![Reportes](backup/docs/images/reporte_mensual_transacciones_reporte_mensual.png)
+
 -   Backups
+    ![Reportes](backup/docs/images/backups.png)
 
 ¡Todo desde una UI limpia, responsiva y moderna!
 

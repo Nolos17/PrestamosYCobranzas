@@ -72,9 +72,9 @@ Este sistema permite gestionar socios, préstamos, pagos, retiros, reportes y co
    - Usa phpMyAdmin o el cliente MySQL.
    - Archivo `.sql` incluido (/backup/prestamosDB).
    - Tambien puedes utilizar la migracion y los seeders configurados por defecto.
-      ```bash
-   php artisan migrate:fresh --seed
-   ```
+    ```bash
+    php artisan migrate:fresh --seed
+    ```
 
 
 5. **Crea el enlace simbólico de almacenamiento**

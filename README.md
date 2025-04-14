@@ -80,7 +80,6 @@ Este sistema permite gestionar socios, préstamos, pagos, retiros, reportes y co
 
 4. **Importa la base de datos**
 
-
     - Usa phpMyAdmin o el cliente MySQL.
     - Archivo `.sql` incluido (/backup/prestamosDB).
     - Tambien puedes utilizar la migracion y los seeders configurados por defecto.
@@ -100,7 +99,7 @@ Este sistema permite gestionar socios, préstamos, pagos, retiros, reportes y co
 
 ## 📸 Vista de Funcionalidades
 
-### 🔐 Login
+-   ### 🔐 Login
 
 <p align="center">
   <img src="backup/docs/images/inicio.png" width="600"/>
@@ -171,7 +170,6 @@ Este sistema permite gestionar socios, préstamos, pagos, retiros, reportes y co
 <p align="center">
   <img src="backup/docs/images/backups.png" width="600"/>
 </p>
-
 
 ¡Todo desde una UI limpia, responsiva y moderna!
 

@@ -100,29 +100,78 @@ Este sistema permite gestionar socios, préstamos, pagos, retiros, reportes y co
 
 ## 📸 Vista de Funcionalidades
 
--   Login
-    ![Login](backup/docs/images/inicio.png)
--   Interfaz inicial
-    ![Intefaz Inicial](backup/docs/images/inicio1.png)
--   Configuración
-    ![Configuración](backup/docs/images/configuracion.png)
--   Registro y gestión de socios
-    ![Socio](backup/docs/images/socio.png)
-    ![Socio Registrar](backup/docs/images/socio_registrar.png)
--   Préstamos
-    ![Préstamos](backup/docs/images/prestamos_ver.png)
-    ![Préstamos](backup/docs/images/prestamos_reporte.png)
--   Pagos e intereses
-    ![Intereses](backup/docs/images/listado_pagos.png)
-    ![Intereses](backup/docs/images/pago_interes.png)
-    ![Intereses](backup/docs/images/pago_reporte.png)
--   Reportes
-    ![Reportes](backup/docs/images/reporte_mensual_ahorros.png)
-    ![Reportes](backup/docs/images/reporte_mensual_prestamos.png)
-    ![Reportes](backup/docs/images/reporte_mensual_transacciones_reporte_mensual.png)
+### 🔐 Login
 
--   Backups
-    ![Reportes](backup/docs/images/backups.png)
+<p align="center">
+  <img src="backup/docs/images/inicio.png" width="600"/>
+</p>
+
+### 🏠 Interfaz Inicial
+
+<p align="center">
+  <img src="backup/docs/images/inicio1.png" width="600"/>
+</p>
+
+### ⚙️ Configuración
+
+<p align="center">
+  <img src="backup/docs/images/configuracion.png" width="600"/>
+</p>
+
+### 👥 Registro y Gestión de Socios
+
+<p align="center">
+  <img src="backup/docs/images/socio.png" width="600"/>
+</p>
+
+<p align="center">
+  <img src="backup/docs/images/socio_registrar.png" width="600"/>
+</p>
+
+### 💰 Préstamos
+
+<p align="center">
+  <img src="backup/docs/images/prestamos_ver.png" width="600"/>
+</p>
+
+<p align="center">
+  <img src="backup/docs/images/prestamos_reporte.png" width="600"/>
+</p>
+
+### 💵 Pagos e Intereses
+
+<p align="center">
+  <img src="backup/docs/images/listado_pagos.png" width="600"/>
+</p>
+
+<p align="center">
+  <img src="backup/docs/images/pago_interes.png" width="600"/>
+</p>
+
+<p align="center">
+  <img src="backup/docs/images/pago_reporte.png" width="600"/>
+</p>
+
+### 📊 Reportes
+
+<p align="center">
+  <img src="backup/docs/images/reporte_mensual_ahorros.png" width="600"/>
+</p>
+
+<p align="center">
+  <img src="backup/docs/images/reporte_mensual_prestamos.png" width="600"/>
+</p>
+
+<p align="center">
+  <img src="backup/docs/images/transacciones_reporte_mensual.png" width="600"/>
+</p>
+
+### 🔄 Backups
+
+<p align="center">
+  <img src="backup/docs/images/backups.png" width="600"/>
+</p>
+
 
 ¡Todo desde una UI limpia, responsiva y moderna!
 

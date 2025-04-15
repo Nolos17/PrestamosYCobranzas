@@ -155,8 +155,8 @@
 
                                             <th style="text-align: center">Referencia de Pago</th>
                                             <th style="text-align: center">Monto</th>
-                                            <th style="text-align: center">Monto</th>
                                             <th style="text-align: center">Multa</th>
+                                            <th style="text-align: center">Estado</th>
                                             <th style="text-align: center">Fecha de Pago</th>
                                             <th style="text-align: center">Detalle</th>
                                         </tr>

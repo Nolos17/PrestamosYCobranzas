@@ -8,6 +8,7 @@ use App\Models\Cliente;
 use App\Models\Configuracion;
 use App\Models\Pago;
 use App\Models\Prestamo;
+use App\Models\Retencione;
 use App\Models\Retiro;
 use App\Models\Transaccione;
 use Carbon\Carbon;
@@ -360,11 +361,12 @@ class CuotaController extends Controller
                         $cuota->saldo_pendiente = 0;
                     }
                     $cuota->monto_cuota -= $monto; // Actualizar el monto_cuota al saldo pendiente
-                    $cuota->detalle_pago .= ' (Pago parcial)';
+                    $cuota->estado = 'pago cuota_parcial';
+                    $cuota->detalle_pago .= ' (Cuota pago parcial)';
                 } else {
                     // Pago completo: cambiar estado a "Pagado"
                     $cuota->estado = 'Pagado';
-                    $cuota->detalle_pago .= ' (Pago completo)';
+                    $cuota->detalle_pago .= ' (Cuota completa)';
                 }
 
                 $cuota->save();
@@ -410,7 +412,8 @@ class CuotaController extends Controller
                     if ($ahorro->monto_ahorro < 0) {
                         $ahorro->monto_ahorro = 0;
                     }
-                    $ahorro->detalle_pago .= ' (Pago parcial)';
+                    $ahorro->detalle_pago .= ' (Ahorro pago parcial)';
+                    $ahorro->estado = 'pago ahorro_parcial';
                 } else {
                     // Pago completo: cambiar estado a "Pagado"
                     $ahorro->estado = 'Pagado';
@@ -582,8 +585,53 @@ class CuotaController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Cuota $cuota)
+    public function destroy($id)
     {
-        //
+        //$datos = request()->all();
+        //return response()->json($datos);
+
+        $transaccion = Transaccione::latest('id')->first();
+        $saldo = $transaccion && !is_null($transaccion->saldo) ? $transaccion->saldo : 0;
+        $pago = Pago::find($id);
+        $transaccion = new Transaccione();
+        $transaccion->tipo_transaccion = 'Egreso';
+        $transaccion->tipo_transaccion1 = 'reverso_pago';
+        $transaccion->monto = $pago->total_pago;
+        $transaccion->saldo = $saldo - $pago->total_pago;
+        $transaccion->detalle = 'Reverso de pago' . $pago->id;
+        $transaccion->fecha = now()->toDateString();
+        $transaccion->save();
+
+        $cuotas = Cuota::where('pago_id', $pago->id)->get();
+
+        foreach ($cuotas as $cuota) {
+            // Actualiza cada cuota
+            $cuota->estado = 'Pendiente';
+            $cuota->fecha_pago = null;
+            $cuota->detalle_pago = null;
+            $cuota->pago_id = null;
+            $cuota->multa = null;
+            $cuota->save();
+
+            // Actualiza el préstamo relacionado
+            $prestamo = Prestamo::find($cuota->prestamo_id);
+            if ($prestamo) {
+                $prestamo->monto_total += $cuota->monto_cuota;
+                $prestamo->estado = 'Activo';
+                $prestamo->save();
+            }
+        }
+
+        Ahorro::where('pago_id', $pago->id)->update([
+            'estado' => 'Pendiente',
+            'fecha_pago' => null,
+            'detalle_pago' => null,
+            'pago_id' => null,
+            'multa' => null,
+        ]);
+        Pago::destroy($id);
+        return redirect()->route(route: 'admin.cuotas.index')
+            ->with(key: 'mensaje', value: 'Se eliminó el pago de manera correcta')
+            ->with(key: 'icono', value: 'success');
     }
 }

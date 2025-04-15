@@ -86,14 +86,14 @@ class ClienteController extends Controller
             $pago->save();
         }
 
-
+        $transaccion = Transaccione::latest('id')->first();
+        $saldo = $transaccion && !is_null($transaccion->saldo) ? $transaccion->saldo : 0;
         //Crear una transaccion
         $transaccion = new Transaccione();
         $transaccion->tipo_transaccion = 'ingreso';
         $transaccion->tipo_transaccion1 = 'ahorro inicial';
         $transaccion->monto = $request->saldo_ahorro;
-        $ultimoSaldo = Transaccione::latest()->first()->saldo ?? 0;
-        $transaccion->saldo = $ultimoSaldo + $request->saldo_ahorro;
+        $transaccion->saldo = $saldo + $request->saldo_ahorro;
         $transaccion->detalle = 'Ahorro inicial del Cliente: ' . $cliente->nombres;
         $transaccion->fecha = Carbon::now();
         $transaccion->save();

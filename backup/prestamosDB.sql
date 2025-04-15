@@ -37,9 +37,9 @@ CREATE TABLE `ahorros` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `ahorros_cliente_id_foreign` (`cliente_id`) USING BTREE,
+  KEY `ahorros_cliente_id_foreign` (`cliente_id`),
   CONSTRAINT `ahorros_cliente_id_foreign` FOREIGN KEY (`cliente_id`) REFERENCES `clientes` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=374 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -48,6 +48,7 @@ CREATE TABLE `ahorros` (
 
 LOCK TABLES `ahorros` WRITE;
 /*!40000 ALTER TABLE `ahorros` DISABLE KEYS */;
+INSERT INTO `ahorros` VALUES (1,1,100.00,'2025-02-10','Efectivo','Pago del ahorro mes febrero 2025','Pendiente',NULL,NULL,NULL,NULL,'2025-04-14 23:26:09','2025-04-14 23:26:09'),(2,1,100.00,'2025-03-10','Efectivo','Pago del ahorro mes marzo 2025','Pendiente',NULL,NULL,NULL,NULL,'2025-04-14 23:26:09','2025-04-14 23:26:09'),(3,1,100.00,'2025-04-10','Efectivo','Pago del ahorro mes abril 2025','Pendiente',NULL,NULL,NULL,NULL,'2025-04-14 23:26:09','2025-04-14 23:26:09'),(4,1,100.00,'2025-05-10','Efectivo','Pago del ahorro mes mayo 2025','Pendiente',NULL,NULL,NULL,NULL,'2025-04-14 23:26:09','2025-04-14 23:26:09'),(5,1,100.00,'2025-06-10','Efectivo','Pago del ahorro mes junio 2025','Pendiente',NULL,NULL,NULL,NULL,'2025-04-14 23:26:09','2025-04-14 23:26:09'),(6,1,100.00,'2025-07-10','Efectivo','Pago del ahorro mes julio 2025','Pendiente',NULL,NULL,NULL,NULL,'2025-04-14 23:26:09','2025-04-14 23:26:09'),(7,1,100.00,'2025-08-10','Efectivo','Pago del ahorro mes agosto 2025','Pendiente',NULL,NULL,NULL,NULL,'2025-04-14 23:26:09','2025-04-14 23:26:09'),(8,1,100.00,'2025-09-10','Efectivo','Pago del ahorro mes septiembre 2025','Pendiente',NULL,NULL,NULL,NULL,'2025-04-14 23:26:09','2025-04-14 23:26:09'),(9,1,100.00,'2025-10-10','Efectivo','Pago del ahorro mes octubre 2025','Pendiente',NULL,NULL,NULL,NULL,'2025-04-14 23:26:09','2025-04-14 23:26:09'),(10,1,100.00,'2025-11-10','Efectivo','Pago del ahorro mes noviembre 2025','Pendiente',NULL,NULL,NULL,NULL,'2025-04-14 23:26:09','2025-04-14 23:26:09'),(11,1,100.00,'2025-12-10','Efectivo','Pago del ahorro mes diciembre 2025','Pendiente',NULL,NULL,NULL,NULL,'2025-04-14 23:26:09','2025-04-14 23:26:09');
 /*!40000 ALTER TABLE `ahorros` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -76,8 +77,8 @@ CREATE TABLE `clientes` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `clientes_nro_documento_unique` (`nro_documento`)
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  UNIQUE KEY `clientes_nro_documento_unique` (`nro_documento`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -86,6 +87,7 @@ CREATE TABLE `clientes` (
 
 LOCK TABLES `clientes` WRITE;
 /*!40000 ALTER TABLE `clientes` DISABLE KEYS */;
+INSERT INTO `clientes` VALUES (1,'1719384732','Generico','Usuario','2025-04-01','masculino','generico1@gmail.com','0993422324','2348934384',4,'2025-02-01',1000.00,1000.00,'Activo','2025-04-14 23:26:09','2025-04-14 23:28:52');
 /*!40000 ALTER TABLE `clientes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -123,7 +125,7 @@ CREATE TABLE `configuraciones` (
 
 LOCK TABLES `configuraciones` WRITE;
 /*!40000 ALTER TABLE `configuraciones` DISABLE KEYS */;
-INSERT INTO `configuraciones` VALUES (1,'COOPROFUTURO','.','Balcon del Valle','43534534','admin@admin.com','ninguna.com','usd','logos/yHE44Y7UOUWLRNrAU7zNqwDFZ7WPYYXdUJ5CJja9.png',2.00,25.00,1.00,0.00,NULL,'2025-03-24 23:39:45','2025-04-03 01:43:46');
+INSERT INTO `configuraciones` VALUES (1,'COO PROFUTURO','Prestamos con interes bajo','guamani','0993593185','noloststorres@gmail.com','ninguna.com','usd','logos/QSEKZloYDLurWY5QcwfV8gVRxvKIkNJzohnmi4x1.png',2.00,25.00,1.00,0.00,NULL,'2025-04-14 23:25:02','2025-04-14 23:25:02');
 /*!40000 ALTER TABLE `configuraciones` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -152,9 +154,9 @@ CREATE TABLE `cuotas` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `cuotas_prestamo_id_foreign` (`prestamo_id`) USING BTREE,
+  KEY `cuotas_prestamo_id_foreign` (`prestamo_id`),
   CONSTRAINT `cuotas_prestamo_id_foreign` FOREIGN KEY (`prestamo_id`) REFERENCES `prestamos` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=73 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -207,7 +209,7 @@ CREATE TABLE `migrations` (
   `migration` varchar(255) NOT NULL,
   `batch` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -216,7 +218,7 @@ CREATE TABLE `migrations` (
 
 LOCK TABLES `migrations` WRITE;
 /*!40000 ALTER TABLE `migrations` DISABLE KEYS */;
-INSERT INTO `migrations` VALUES (1,'2014_10_12_000000_create_users_table',1),(2,'2014_10_12_100000_create_password_reset_tokens_table',1),(3,'2014_10_12_100000_create_password_resets_table',1),(4,'2015_03_09_122602_create_configuraciones_table',1),(5,'2019_08_19_000000_create_failed_jobs_table',1),(6,'2019_12_14_000001_create_personal_access_tokens_table',1),(7,'2025_03_10_155302_create_permission_tables',1),(8,'2025_03_11_074215_create_clientes_table',1),(9,'2025_03_11_074215_create_pagos_table',1),(10,'2025_03_11_222929_create_prestamos_table',1),(11,'2025_03_11_224017_create_cuotas_table',1),(12,'2025_03_12_224959_create_ahorros_table',1),(13,'2025_03_16_233107_create_transacciones_table',1),(14,'2025_03_17_181957_create_retiros_table',1),(15,'2025_04_10_145125_create_retenciones_table',1);
+INSERT INTO `migrations` VALUES (1,'2014_10_12_000000_create_users_table',1),(2,'2014_10_12_100000_create_password_reset_tokens_table',1),(3,'2014_10_12_100000_create_password_resets_table',1),(4,'2015_03_09_122602_create_configuraciones_table',1),(5,'2019_08_19_000000_create_failed_jobs_table',1),(6,'2019_12_14_000001_create_personal_access_tokens_table',1),(7,'2025_03_10_155302_create_permission_tables',1),(8,'2025_03_11_074215_create_clientes_table',1),(9,'2025_03_11_074215_create_pagos_table',1),(10,'2025_03_11_222929_create_prestamos_table',1),(11,'2025_03_11_224017_create_cuotas_table',1),(12,'2025_03_12_224959_create_ahorros_table',1),(13,'2025_03_16_233107_create_transacciones_table',1),(14,'2025_03_17_181957_create_retiros_table',1),(15,'2025_04_10_145125_create_retenciones_table',1),(16,'2025_04_14_152045_update_tipo_transaccion1_enum_in_transacciones',1);
 /*!40000 ALTER TABLE `migrations` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -292,7 +294,7 @@ CREATE TABLE `pagos` (
   PRIMARY KEY (`id`),
   KEY `pagos_cliente_id_foreign` (`cliente_id`),
   CONSTRAINT `pagos_cliente_id_foreign` FOREIGN KEY (`cliente_id`) REFERENCES `clientes` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -376,7 +378,7 @@ CREATE TABLE `permissions` (
 
 LOCK TABLES `permissions` WRITE;
 /*!40000 ALTER TABLE `permissions` DISABLE KEYS */;
-INSERT INTO `permissions` VALUES (1,'admin.configuracion.index','web','2025-04-03 00:04:37','2025-04-03 00:04:37'),(2,'admin.configuracion.create','web','2025-04-03 00:04:37','2025-04-03 00:04:37'),(3,'admin.configuracion.store','web','2025-04-03 00:04:37','2025-04-03 00:04:37'),(4,'admin.configuracion.show','web','2025-04-03 00:04:37','2025-04-03 00:04:37'),(5,'admin.configuracion.edit','web','2025-04-03 00:04:37','2025-04-03 00:04:37'),(6,'admin.configuracion.update','web','2025-04-03 00:04:37','2025-04-03 00:04:37'),(7,'admin.configuracion.destroy','web','2025-04-03 00:04:37','2025-04-03 00:04:37'),(8,'admin.roles.index','web','2025-04-03 00:04:37','2025-04-03 00:04:37'),(9,'admin.roles.create','web','2025-04-03 00:04:37','2025-04-03 00:04:37'),(10,'admin.roles.store','web','2025-04-03 00:04:37','2025-04-03 00:04:37'),(11,'admin.roles.show','web','2025-04-03 00:04:37','2025-04-03 00:04:37'),(12,'admin.roles.asignar_roles','web','2025-04-03 00:04:37','2025-04-03 00:04:37'),(13,'admin.roles.update_asignar','web','2025-04-03 00:04:37','2025-04-03 00:04:37'),(14,'admin.roles.edit','web','2025-04-03 00:04:37','2025-04-03 00:04:37'),(15,'admin.roles.update','web','2025-04-03 00:04:37','2025-04-03 00:04:37'),(16,'admin.roles.destroy','web','2025-04-03 00:04:37','2025-04-03 00:04:37'),(17,'admin.users.index','web','2025-04-03 00:04:38','2025-04-03 00:04:38'),(18,'admin.users.create','web','2025-04-03 00:04:38','2025-04-03 00:04:38'),(19,'admin.users.store','web','2025-04-03 00:04:38','2025-04-03 00:04:38'),(20,'admin.users.show','web','2025-04-03 00:04:38','2025-04-03 00:04:38'),(21,'admin.users.edit','web','2025-04-03 00:04:38','2025-04-03 00:04:38'),(22,'admin.users.update','web','2025-04-03 00:04:38','2025-04-03 00:04:38'),(23,'admin.users.destroy','web','2025-04-03 00:04:38','2025-04-03 00:04:38'),(24,'admin.clientes.index','web','2025-04-03 00:04:38','2025-04-03 00:04:38'),(25,'admin.clientes.create','web','2025-04-03 00:04:38','2025-04-03 00:04:38'),(26,'admin.clientes.store','web','2025-04-03 00:04:38','2025-04-03 00:04:38'),(27,'admin.clientes.show','web','2025-04-03 00:04:38','2025-04-03 00:04:38'),(28,'admin.clientes.edit','web','2025-04-03 00:04:38','2025-04-03 00:04:38'),(29,'admin.clientes.update','web','2025-04-03 00:04:38','2025-04-03 00:04:38'),(30,'admin.clientes.destroy','web','2025-04-03 00:04:38','2025-04-03 00:04:38'),(31,'admin.clientes.deshabilitar','web','2025-04-03 00:04:38','2025-04-03 00:04:38'),(32,'admin.prestamos.index','web','2025-04-03 00:04:38','2025-04-03 00:04:38'),(33,'admin.prestamos.create','web','2025-04-03 00:04:38','2025-04-03 00:04:38'),(34,'admin.prestamos.cliente.obtenerCliente','web','2025-04-03 00:04:38','2025-04-03 00:04:38'),(35,'admin.prestamos.store','web','2025-04-03 00:04:38','2025-04-03 00:04:38'),(36,'admin.prestamos.show','web','2025-04-03 00:04:38','2025-04-03 00:04:38'),(37,'admin.prestamos.contratos','web','2025-04-03 00:04:38','2025-04-03 00:04:38'),(38,'admin.cuotas.index','web','2025-04-03 00:04:38','2025-04-03 00:04:38'),(39,'admin.cuotas.create','web','2025-04-03 00:04:38','2025-04-03 00:04:38'),(40,'admin.cuotas.cliente.obtenerCliente','web','2025-04-03 00:04:38','2025-04-03 00:04:38'),(41,'admin.cuotas.pagos-pendientes','web','2025-04-03 00:04:38','2025-04-03 00:04:38'),(42,'admin.cuotas.ahorros-pendientes','web','2025-04-03 00:04:38','2025-04-03 00:04:38'),(43,'admin.cuotas.store','web','2025-04-03 00:04:38','2025-04-03 00:04:38'),(44,'admin.cuotas.show','web','2025-04-03 00:04:38','2025-04-03 00:04:38'),(45,'admin.cuotas.recibos','web','2025-04-03 00:04:38','2025-04-03 00:04:38'),(46,'admin.cuotas.interes','web','2025-04-03 00:04:38','2025-04-03 00:04:38'),(47,'admin.cuotas.pagarinteres','web','2025-04-03 00:04:38','2025-04-03 00:04:38'),(48,'admin.cuotas.store1','web','2025-04-03 00:04:38','2025-04-03 00:04:38'),(49,'admin.retiros.index','web','2025-04-03 00:04:38','2025-04-03 00:04:38'),(50,'admin.retiros.create','web','2025-04-03 00:04:38','2025-04-03 00:04:38'),(51,'admin.retiros.cliente.obtenerCliente','web','2025-04-03 00:04:38','2025-04-03 00:04:38'),(52,'admin.retiros.store','web','2025-04-03 00:04:38','2025-04-03 00:04:38'),(53,'admin.retiros.show','web','2025-04-03 00:04:38','2025-04-03 00:04:38'),(54,'admin.retiros.recibos','web','2025-04-03 00:04:38','2025-04-03 00:04:38'),(55,'admin.backups.index','web','2025-04-03 00:04:38','2025-04-03 00:04:38'),(56,'admin.backups.create','web','2025-04-03 00:04:38','2025-04-03 00:04:38');
+INSERT INTO `permissions` VALUES (1,'admin.configuracion.index','web','2025-04-14 23:14:24','2025-04-14 23:14:24'),(2,'admin.configuracion.create','web','2025-04-14 23:14:24','2025-04-14 23:14:24'),(3,'admin.configuracion.store','web','2025-04-14 23:14:24','2025-04-14 23:14:24'),(4,'admin.configuracion.show','web','2025-04-14 23:14:24','2025-04-14 23:14:24'),(5,'admin.configuracion.edit','web','2025-04-14 23:14:24','2025-04-14 23:14:24'),(6,'admin.configuracion.update','web','2025-04-14 23:14:24','2025-04-14 23:14:24'),(7,'admin.configuracion.destroy','web','2025-04-14 23:14:24','2025-04-14 23:14:24'),(8,'admin.roles.index','web','2025-04-14 23:14:24','2025-04-14 23:14:24'),(9,'admin.roles.create','web','2025-04-14 23:14:24','2025-04-14 23:14:24'),(10,'admin.roles.store','web','2025-04-14 23:14:24','2025-04-14 23:14:24'),(11,'admin.roles.show','web','2025-04-14 23:14:24','2025-04-14 23:14:24'),(12,'admin.roles.asignar_roles','web','2025-04-14 23:14:24','2025-04-14 23:14:24'),(13,'admin.roles.update_asignar','web','2025-04-14 23:14:24','2025-04-14 23:14:24'),(14,'admin.roles.edit','web','2025-04-14 23:14:24','2025-04-14 23:14:24'),(15,'admin.roles.update','web','2025-04-14 23:14:24','2025-04-14 23:14:24'),(16,'admin.roles.destroy','web','2025-04-14 23:14:24','2025-04-14 23:14:24'),(17,'admin.users.index','web','2025-04-14 23:14:24','2025-04-14 23:14:24'),(18,'admin.users.create','web','2025-04-14 23:14:24','2025-04-14 23:14:24'),(19,'admin.users.store','web','2025-04-14 23:14:24','2025-04-14 23:14:24'),(20,'admin.users.show','web','2025-04-14 23:14:24','2025-04-14 23:14:24'),(21,'admin.users.edit','web','2025-04-14 23:14:24','2025-04-14 23:14:24'),(22,'admin.users.update','web','2025-04-14 23:14:24','2025-04-14 23:14:24'),(23,'admin.users.destroy','web','2025-04-14 23:14:24','2025-04-14 23:14:24'),(24,'admin.clientes.index','web','2025-04-14 23:14:24','2025-04-14 23:14:24'),(25,'admin.clientes.create','web','2025-04-14 23:14:24','2025-04-14 23:14:24'),(26,'admin.clientes.store','web','2025-04-14 23:14:24','2025-04-14 23:14:24'),(27,'admin.clientes.show','web','2025-04-14 23:14:24','2025-04-14 23:14:24'),(28,'admin.clientes.edit','web','2025-04-14 23:14:24','2025-04-14 23:14:24'),(29,'admin.clientes.update','web','2025-04-14 23:14:24','2025-04-14 23:14:24'),(30,'admin.clientes.destroy','web','2025-04-14 23:14:24','2025-04-14 23:14:24'),(31,'admin.clientes.deshabilitar','web','2025-04-14 23:14:24','2025-04-14 23:14:24'),(32,'admin.prestamos.index','web','2025-04-14 23:14:24','2025-04-14 23:14:24'),(33,'admin.prestamos.create','web','2025-04-14 23:14:24','2025-04-14 23:14:24'),(34,'admin.prestamos.cliente.obtenerCliente','web','2025-04-14 23:14:24','2025-04-14 23:14:24'),(35,'admin.prestamos.store','web','2025-04-14 23:14:24','2025-04-14 23:14:24'),(36,'admin.prestamos.show','web','2025-04-14 23:14:24','2025-04-14 23:14:24'),(37,'admin.prestamos.contratos','web','2025-04-14 23:14:24','2025-04-14 23:14:24'),(38,'admin.cuotas.index','web','2025-04-14 23:14:24','2025-04-14 23:14:24'),(39,'admin.cuotas.create','web','2025-04-14 23:14:24','2025-04-14 23:14:24'),(40,'admin.cuotas.cliente.obtenerCliente','web','2025-04-14 23:14:24','2025-04-14 23:14:24'),(41,'admin.cuotas.pagos-pendientes','web','2025-04-14 23:14:24','2025-04-14 23:14:24'),(42,'admin.cuotas.ahorros-pendientes','web','2025-04-14 23:14:24','2025-04-14 23:14:24'),(43,'admin.cuotas.store','web','2025-04-14 23:14:24','2025-04-14 23:14:24'),(44,'admin.cuotas.show','web','2025-04-14 23:14:24','2025-04-14 23:14:24'),(45,'admin.cuotas.recibos','web','2025-04-14 23:14:24','2025-04-14 23:14:24'),(46,'admin.cuotas.interes','web','2025-04-14 23:14:24','2025-04-14 23:14:24'),(47,'admin.cuotas.pagarinteres','web','2025-04-14 23:14:24','2025-04-14 23:14:24'),(48,'admin.cuotas.store1','web','2025-04-14 23:14:24','2025-04-14 23:14:24'),(49,'admin.retiros.index','web','2025-04-14 23:14:24','2025-04-14 23:14:24'),(50,'admin.retiros.create','web','2025-04-14 23:14:24','2025-04-14 23:14:24'),(51,'admin.retiros.cliente.obtenerCliente','web','2025-04-14 23:14:24','2025-04-14 23:14:24'),(52,'admin.retiros.store','web','2025-04-14 23:14:24','2025-04-14 23:14:24'),(53,'admin.retiros.show','web','2025-04-14 23:14:24','2025-04-14 23:14:24'),(54,'admin.retiros.recibos','web','2025-04-14 23:14:24','2025-04-14 23:14:24'),(55,'admin.backups.index','web','2025-04-14 23:14:24','2025-04-14 23:14:24'),(56,'admin.backups.create','web','2025-04-14 23:14:24','2025-04-14 23:14:24');
 /*!40000 ALTER TABLE `permissions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -435,11 +437,9 @@ CREATE TABLE `prestamos` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `prestamos_cliente_id_foreign` (`cliente_id`) USING BTREE,
-  KEY `retiros_cliente_id_foreign` (`cliente_id`) USING BTREE,
-  KEY `pagos_cliente_id_foreign` (`cliente_id`) USING BTREE,
+  KEY `prestamos_cliente_id_foreign` (`cliente_id`),
   CONSTRAINT `prestamos_cliente_id_foreign` FOREIGN KEY (`cliente_id`) REFERENCES `clientes` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -466,7 +466,7 @@ CREATE TABLE `retenciones` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -498,7 +498,7 @@ CREATE TABLE `retiros` (
   PRIMARY KEY (`id`),
   KEY `retiros_cliente_id_foreign` (`cliente_id`),
   CONSTRAINT `retiros_cliente_id_foreign` FOREIGN KEY (`cliente_id`) REFERENCES `clientes` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -533,7 +533,7 @@ CREATE TABLE `role_has_permissions` (
 
 LOCK TABLES `role_has_permissions` WRITE;
 /*!40000 ALTER TABLE `role_has_permissions` DISABLE KEYS */;
-INSERT INTO `role_has_permissions` VALUES (1,1),(1,2),(2,1),(2,2),(3,1),(3,2),(4,1),(5,1),(6,1),(7,1),(7,2),(8,1),(9,1),(10,1),(11,1),(12,1),(13,1),(14,1),(15,1),(16,1),(17,1),(18,1),(19,1),(20,1),(21,1),(22,1),(23,1),(24,1),(24,2),(25,1),(25,2),(26,1),(26,2),(27,1),(27,2),(28,1),(28,2),(29,1),(29,2),(30,1),(30,2),(31,1),(31,2),(32,1),(32,2),(33,1),(33,2),(34,1),(34,2),(35,1),(35,2),(36,1),(36,2),(37,1),(37,2),(38,1),(38,2),(39,1),(39,2),(40,1),(40,2),(41,1),(41,2),(42,1),(42,2),(43,1),(43,2),(44,1),(44,2),(45,1),(45,2),(46,1),(46,2),(47,1),(47,2),(48,1),(48,2),(49,1),(49,2),(50,1),(50,2),(51,1),(51,2),(52,1),(52,2),(53,1),(53,2),(54,1),(54,2),(55,1),(55,2),(56,1),(56,2);
+INSERT INTO `role_has_permissions` VALUES (1,1),(2,1),(3,1),(4,1),(5,1),(6,1),(7,1),(8,1),(9,1),(10,1),(11,1),(12,1),(13,1),(14,1),(15,1),(16,1),(17,1),(18,1),(19,1),(20,1),(21,1),(22,1),(23,1),(24,1),(25,1),(26,1),(27,1),(28,1),(29,1),(30,1),(31,1),(32,1),(33,1),(34,1),(35,1),(36,1),(37,1),(38,1),(39,1),(40,1),(41,1),(42,1),(43,1),(44,1),(45,1),(46,1),(47,1),(48,1),(49,1),(50,1),(51,1),(52,1),(53,1),(54,1),(55,1),(56,1);
 /*!40000 ALTER TABLE `role_has_permissions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -552,7 +552,7 @@ CREATE TABLE `roles` (
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `roles_name_guard_name_unique` (`name`,`guard_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -561,7 +561,7 @@ CREATE TABLE `roles` (
 
 LOCK TABLES `roles` WRITE;
 /*!40000 ALTER TABLE `roles` DISABLE KEYS */;
-INSERT INTO `roles` VALUES (1,'ADMINISTRADOR','web','2025-04-03 00:04:37','2025-04-03 00:04:37'),(2,'ENCARGADO','web','2025-04-03 01:54:51','2025-04-03 01:54:51');
+INSERT INTO `roles` VALUES (1,'ADMINISTRADOR','web','2025-04-14 23:14:24','2025-04-14 23:14:24');
 /*!40000 ALTER TABLE `roles` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -577,7 +577,7 @@ CREATE TABLE `transacciones` (
   `pago_id` int(11) DEFAULT NULL,
   `retiro_id` int(11) DEFAULT NULL,
   `tipo_transaccion` enum('ingreso','egreso','movimiento interno') NOT NULL DEFAULT 'ingreso',
-  `tipo_transaccion1` enum('ahorro inicial','pago ahorro','pago prestamo','multa','precancelacion','retiro interes','retiro ahorro','prestamo','acumular') NOT NULL,
+  `tipo_transaccion1` enum('ahorro inicial','pago ahorro','pago ahorro_parcial','pago prestamo','pago cuota_parcial','multa','precancelacion','retiro interes','retiro ahorro','prestamo','acumular','reverso_prestamo','reverso_pago') DEFAULT NULL,
   `detalle` varchar(255) NOT NULL,
   `monto` decimal(10,2) NOT NULL,
   `saldo` decimal(10,2) NOT NULL,
@@ -585,7 +585,7 @@ CREATE TABLE `transacciones` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=120 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -594,6 +594,7 @@ CREATE TABLE `transacciones` (
 
 LOCK TABLES `transacciones` WRITE;
 /*!40000 ALTER TABLE `transacciones` DISABLE KEYS */;
+INSERT INTO `transacciones` VALUES (1,NULL,NULL,'ingreso','ahorro inicial','Ahorro inicial del Cliente: Manolo',1000.00,1000.00,'2025-04-14','2025-04-14 23:26:09','2025-04-14 23:26:09');
 /*!40000 ALTER TABLE `transacciones` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -615,7 +616,7 @@ CREATE TABLE `users` (
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `users_email_unique` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -624,7 +625,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'Administrador','admin@admin.com',NULL,'$2y$12$73I/YHmYFYyA1ahTnplKaeShx5R7C1GuAsWpRMzaITvr5G2nRN./a',NULL,'2025-04-03 00:04:39','2025-04-03 01:55:17');
+INSERT INTO `users` VALUES (1,'Admin123','admin@admin.com',NULL,'$2y$12$uMocjFbor1tY6Mx.dqGbfuCk.CIFxxD/8FMkAP3EdIDKCmnwCM/ZC',NULL,'2025-04-14 23:14:25','2025-04-14 23:31:10');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -637,4 +638,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-04-13 23:42:42
+-- Dump completed on 2025-04-14 18:31:19

@@ -18,7 +18,7 @@ class PrestamoController extends Controller
      */
     public function index()
     {
-        $prestamos = Prestamo::all();
+        $prestamos = Prestamo::with('cuotas')->get();
         return view('admin.prestamos.index', compact('prestamos'));
     }
     public function contratos($id)
@@ -85,8 +85,8 @@ class PrestamoController extends Controller
             'datos' => $datos,
             'cuotas' => $cuotas
         ]);*/
-        $transaccion = Transaccione::latest('id')->first();
         $configuracion = Configuracion::latest()->first();
+        $transaccion = Transaccione::latest('id')->first();
         $saldo = $transaccion && !is_null($transaccion->saldo) ? $transaccion->saldo : 0;
 
         $request->validate([
@@ -199,8 +199,25 @@ class PrestamoController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Prestamo $prestamo)
+    public function destroy($id)
     {
-        //
+
+        $transaccion = Transaccione::latest('id')->first();
+        $saldo = $transaccion && !is_null($transaccion->saldo) ? $transaccion->saldo : 0;
+        $prestamo = Prestamo::find($id);
+        $transaccion = new Transaccione();
+        $transaccion->tipo_transaccion = 'Ingreso';
+        $transaccion->tipo_transaccion1 = 'reverso_prestamo';
+        $transaccion->monto = $prestamo->monto_prestado;
+        $transaccion->saldo = $saldo + $prestamo->monto_prestado;
+        $transaccion->detalle = 'Reverso de prestamo';
+        $transaccion->fecha = now()->toDateString();
+        $transaccion->save();
+
+        Retencione::where('prestamo_id', $prestamo->id)->delete();
+        Prestamo::destroy($id);
+        return redirect()->route(route: 'admin.prestamos.index')
+            ->with(key: 'mensaje', value: 'Se eliminó el prestamo de manera correcta')
+            ->with(key: 'icono', value: 'success');
     }
 }

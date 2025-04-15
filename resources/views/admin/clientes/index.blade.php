@@ -69,8 +69,8 @@
                                                 </form>
                                             @endif
 
-                                            <!-- Botón de Eliminar (solo si el estado es deshabilitado y saldo_ahorro es 0) -->
-                                            @if ($cliente->estado === 'Deshabilitado' && $cliente->saldo_ahorro == 0)
+                                           <!-- Botón de Eliminar (solo si el estado es deshabilitado y saldo_ahorro es 0) -->
+                                             @if ($cliente->estado === 'Deshabilitado' && $cliente->saldo_ahorro == 0)
                                                 <form action="{{ url('/admin/clientes/' . $cliente->id) }}" method="post"
                                                     id="miFormularioEliminar{{ $cliente->id }}">
                                                     @csrf

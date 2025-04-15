@@ -148,9 +148,10 @@
                                     <tr>
                                         <td colspan="2"><b>Detalle del Pago:</b></td>
                                         <td colspan="5">
-                                            <input type="text" name="detalle_pago" id="detalle_pago"
+                                            <input type="text" name="detalle_pago" id="detalle_pago " required
                                                 class="form-control" placeholder="Ingrese detalles del pago">
                                         </td>
+
                                     </tr>
                                 </tfoot>
                             </table>
@@ -643,40 +644,51 @@
 
                 let nuevasCuotas = [];
                 window.cuotasPendientes.forEach(function(cuota) {
-                    const fechaVencimiento = new Date(cuota.fecha_vencimiento);
-                    let multa = 0;
+                    // Verificar si la cuota ya está en cuotasSeleccionadas
+                    const yaExiste = cuotasSeleccionadas.some(
+                        item => item.id_compuesto === `cuota-${cuota.id}`
+                    );
 
-                    // Determinar el límite del día 10 del mes de vencimiento
-                    const mesVencimiento = fechaVencimiento.getMonth();
-                    const anioVencimiento = fechaVencimiento.getFullYear();
-                    const fechaLimite = new Date(anioVencimiento, mesVencimiento, 10); // Día 10 del mes de vencimiento
+                    if (!yaExiste) {
+                        const fechaVencimiento = new Date(cuota.fecha_vencimiento);
+                        let multa = 0;
 
-                    // Si la fecha de pago es posterior al día 10 del mes de vencimiento, se aplica multa
-                    if (fechaPago > fechaLimite) {
-                        multa = multaConfig;
+                        // Determinar el límite del día 10 del mes de vencimiento
+                        const mesVencimiento = fechaVencimiento.getMonth();
+                        const anioVencimiento = fechaVencimiento.getFullYear();
+                        const fechaLimite = new Date(anioVencimiento, mesVencimiento, 10); // Día 10 del mes de vencimiento
+
+                        // Si la fecha de pago es posterior al día 10 del mes de vencimiento, se aplica multa
+                        if (fechaPago > fechaLimite) {
+                            multa = multaConfig;
+                        }
+
+                        const monto = parseFloat(cuota.monto);
+                        const total = monto + multa;
+
+                        nuevasCuotas.push({
+                            id: cuota.id,
+                            id_compuesto: `cuota-${cuota.id}`, // ID compuesto para cuota de préstamo
+                            transaccion: cuota.transaccion,
+                            detalle: cuota.detalle,
+                            fecha_vencimiento: cuota.fecha_vencimiento,
+                            monto: monto,
+                            montoOriginal: monto, // Guardar el monto original
+                            multa: multa,
+                            total: total,
+                            prestamo_id: cuota.prestamo_id,
+                            modificado: false // Inicialmente no modificado
+                        });
                     }
-
-                    const monto = parseFloat(cuota.monto);
-                    const total = monto + multa;
-
-                    nuevasCuotas.push({
-                        id: cuota.id,
-                        id_compuesto: `cuota-${cuota.id}`, // ID compuesto para cuota de préstamo
-                        transaccion: cuota.transaccion,
-                        detalle: cuota.detalle,
-                        fecha_vencimiento: cuota.fecha_vencimiento,
-                        monto: monto,
-                        montoOriginal: monto, // Guardar el monto original
-                        multa: multa,
-                        total: total,
-                        prestamo_id: cuota.prestamo_id,
-                        modificado: false // Inicialmente no modificado
-                    });
                 });
 
-                // Agregar las nuevas cuotas a las seleccionadas sin restricciones de prestamoIdAsociado
-                cuotasSeleccionadas = [...cuotasSeleccionadas, ...nuevasCuotas];
-                actualizarTablaCuotasSeleccionadas();
+                if (nuevasCuotas.length > 0) {
+                    // Agregar las nuevas cuotas a las seleccionadas
+                    cuotasSeleccionadas = [...cuotasSeleccionadas, ...nuevasCuotas];
+                    actualizarTablaCuotasSeleccionadas();
+                } else {
+                    alert("Todas las cuotas de préstamo pendientes ya están cargadas.");
+                }
             } else {
                 alert("No hay cuotas de préstamo pendientes hasta el mes actual.");
             }
@@ -700,41 +712,52 @@
 
                 let nuevasCuotas = [];
                 window.ahorrosPendientes.forEach(function(ahorro) {
-                    const fechaVencimiento = ahorro.fecha_vencimiento ? new Date(ahorro.fecha_vencimiento) : null;
-                    let multa = 0;
+                    // Verificar si el ahorro ya está en cuotasSeleccionadas
+                    const yaExiste = cuotasSeleccionadas.some(
+                        item => item.id_compuesto === `ahorro-${ahorro.id}`
+                    );
 
-                    if (fechaVencimiento) {
-                        // Determinar el límite del día 10 del mes de vencimiento
-                        const mesVencimiento = fechaVencimiento.getMonth();
-                        const anioVencimiento = fechaVencimiento.getFullYear();
-                        const fechaLimite = new Date(anioVencimiento, mesVencimiento, 10); // Día 10 del mes de vencimiento
+                    if (!yaExiste) {
+                        const fechaVencimiento = ahorro.fecha_vencimiento ? new Date(ahorro.fecha_vencimiento) : null;
+                        let multa = 0;
 
-                        // Si la fecha de pago es posterior al día 10 del mes de vencimiento, se aplica multa
-                        if (fechaPago > fechaLimite) {
-                            multa = multaConfig;
+                        if (fechaVencimiento) {
+                            // Determinar el límite del día 10 del mes de vencimiento
+                            const mesVencimiento = fechaVencimiento.getMonth();
+                            const anioVencimiento = fechaVencimiento.getFullYear();
+                            const fechaLimite = new Date(anioVencimiento, mesVencimiento, 10); // Día 10 del mes de vencimiento
+
+                            // Si la fecha de pago es posterior al día 10 del mes de vencimiento, se aplica multa
+                            if (fechaPago > fechaLimite) {
+                                multa = multaConfig;
+                            }
                         }
+
+                        const monto = parseFloat(ahorro.monto);
+                        const total = monto + multa;
+
+                        nuevasCuotas.push({
+                            id: ahorro.id,
+                            id_compuesto: `ahorro-${ahorro.id}`, // ID compuesto para ahorro
+                            transaccion: ahorro.transaccion,
+                            detalle: ahorro.detalle,
+                            fecha_vencimiento: ahorro.fecha_vencimiento || 'N/A',
+                            monto: monto,
+                            montoOriginal: monto, // Guardar el monto original
+                            multa: multa,
+                            total: total,
+                            prestamo_id: null, // Ahorros no tienen préstamo asociado
+                            modificado: false // Inicialmente no modificado
+                        });
                     }
-
-                    const monto = parseFloat(ahorro.monto);
-                    const total = monto + multa;
-
-                    nuevasCuotas.push({
-                        id: ahorro.id,
-                        id_compuesto: `ahorro-${ahorro.id}`, // ID compuesto para ahorro
-                        transaccion: ahorro.transaccion,
-                        detalle: ahorro.detalle,
-                        fecha_vencimiento: ahorro.fecha_vencimiento || 'N/A',
-                        monto: monto,
-                        montoOriginal: monto, // Guardar el monto original
-                        multa: multa,
-                        total: total,
-                        prestamo_id: null, // Ahorros no tienen préstamo asociado
-                        modificado: false // Inicialmente no modificado
-                    });
                 });
 
-                cuotasSeleccionadas = [...cuotasSeleccionadas, ...nuevasCuotas];
-                actualizarTablaCuotasSeleccionadas();
+                if (nuevasCuotas.length > 0) {
+                    cuotasSeleccionadas = [...cuotasSeleccionadas, ...nuevasCuotas];
+                    actualizarTablaCuotasSeleccionadas();
+                } else {
+                    alert("Todos los ahorros pendientes ya están cargados.");
+                }
             } else {
                 alert("No hay ahorros pendientes hasta el mes actual.");
             }

@@ -75,11 +75,11 @@ Route::get('admin/prestamos/cliente/{id}', [App\Http\Controllers\PrestamoControl
 Route::post('admin/prestamos/create', [App\Http\Controllers\PrestamoController::class, 'store'])->name('admin.prestamos.store')->middleware(['auth', 'can:admin.prestamos.store']);
 Route::get('admin/prestamos/{id}', [App\Http\Controllers\PrestamoController::class, 'show'])->name('admin.prestamos.show')->middleware(['auth', 'can:admin.prestamos.show']);
 Route::get('admin/prestamos/contratos/{id}', [App\Http\Controllers\PrestamoController::class, 'contratos'])->name('admin.prestamos.contratos')->middleware(['auth', 'can:admin.prestamos.contratos']);
+Route::delete('admin/prestamos/{id}', [App\Http\Controllers\PrestamoController::class, 'destroy'])->name('admin.prestamos.destroy')->middleware(['auth']);
 
 //por adaptar metodos de actualizado y borrado de prestamos
 /*Route::get('admin/prestamos/{id}/edit', [App\Http\Controllers\PrestamoController::class, 'edit'])->name('admin.prestamos.edit')->middleware(['auth']);
 Route::put('admin/prestamos/{id}', [App\Http\Controllers\PrestamoController::class, 'update'])->name('admin.prestamos.update')->middleware(['auth']);
-Route::delete('admin/prestamos/{id}', [App\Http\Controllers\PrestamoController::class, 'destroy'])->name('admin.prestamos.destroy')->middleware(['auth']);
 */
 
 //rutas para cuotas
@@ -95,11 +95,11 @@ Route::post('admin/cuotas/create', [App\Http\Controllers\CuotaController::class,
 Route::post('admin/cuotas/interes', [App\Http\Controllers\CuotaController::class, 'store1'])->name('admin.cuotas.store1')->middleware(['auth', 'can:admin.cuotas.store1']);
 Route::get('admin/cuotas/{id}', [App\Http\Controllers\CuotaController::class, 'show'])->name('admin.cuotas.show')->middleware(['auth', 'can:admin.cuotas.show']);
 Route::get('admin/cuotas/recibos/{id}', [App\Http\Controllers\CuotaController::class, 'recibos'])->name('admin.cuotas.recibos')->middleware(['auth', 'can:admin.cuotas.recibos']);
+Route::delete('admin/cuotas/{id}', [App\Http\Controllers\CuotaController::class, 'destroy'])->name('admin.cuotas.destroy')->middleware(['auth']);
 
 //por adaptar metodos de actualizado
 /*Route::get('admin/cuotas/{id}/edit', [App\Http\Controllers\CuotaController::class, 'edit'])->name('admin.cuotas.edit')->middleware(['auth']);
 Route::put('admin/cuotas/{id}', [App\Http\Controllers\CuotaController::class, 'update'])->name('admin.cuotas.update')->middleware(['auth']);
-Route::delete('admin/cuotas/{id}', [App\Http\Controllers\CuotaController::class, 'destroy'])->name('admin.cuotas.destroy')->middleware(['auth']);
 */
 
 //rutas para retiros

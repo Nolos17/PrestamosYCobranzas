@@ -1,6 +1,6 @@
 # 💼 Sistema de Préstamos y Cobranzas
 
-Este sistema permite gestionar socios, préstamos, pagos, retiros, reportes y configuraciones institucionales mediante una interfaz moderna, clara y adaptable. Incluye generación automática de recibos, reportes y backups.
+🔧 Sistema web desarrollado con Laravel siguiendo el patrón MVC, orientado a la gestión de 👥 socios, 💳 préstamos y pagos, y 📊 reportes administrativos. Integra una interfaz moderna y responsiva utilizando Bootstrap y el template 🖥️ AdminLTE, con funcionalidades como 🧾 generación automática de recibos, 📁 respaldo de información y una experiencia de usuario clara y adaptable. Incluye generación automática de recibos, reportes y backups.
 
 ## 🚀 Funcionalidades Principales
 
